@@ -10,9 +10,8 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
-from pathlib import Path
 import os
-
+from pathlib import Path
 import dj_database_url
 
 
@@ -22,7 +21,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+
 
 
 # Quick-start development settings - unsuitable for production
@@ -38,7 +37,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY', default='django-insecure--ad1re&14v-a-
 DEBUG = 'RENDER' not in os.environ
 # DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
 if RENDER_EXTERNAL_HOSTNAME:
@@ -98,8 +97,7 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 DATABASES = {
     'default': dj_database_url.config(
-        default ='sqlite:///db.sqlite3',
-        conn_max_age = 600
+        default ='sqlite:///db.sqlite3'
     )
 }
 
@@ -148,11 +146,13 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
-if not DEBUG:
-    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static/')
+]
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
